@@ -15,4 +15,8 @@ test("recieve attacks", () => {
   expect(board.board["C3"][1]).toBe("hit");
 });
 
-test("report if ship has sunk", () => {});
+test("report if ship has sunk", () => {
+  board.recieveAttack("D3");
+  board.recieveAttack("E3");
+  expect(board.checkAllShipsSunk()).toBe("GameOver");
+});
