@@ -5,7 +5,14 @@ let ship = ships();
 
 test("place ships", () => {
   board.placeShip(ship.battleShip, "C", 3, "vertical");
-  expect(board.board["C3"]).toBe(ship.battleShip);
-  expect(board.board["D3"]).toBe(ship.battleShip);
-  expect(board.board["E3"]).toBe(ship.battleShip);
+  expect(board.board["C3"]).toStrictEqual([ship.battleShip]);
+  expect(board.board["D3"]).toStrictEqual([ship.battleShip]);
+  expect(board.board["E3"]).toStrictEqual([ship.battleShip]);
 });
+
+test("recieve attacks", () => {
+  board.recieveAttack("C3");
+  expect(board.board["C3"][1]).toBe("hit");
+});
+
+test("report if ship has sunk", () => {});
