@@ -11,6 +11,8 @@
   "rules": {
     "indent": "error",
     "no-console": "off",
-    "no-alert": "off"
+    "no-alert": "off",
+    "no-return-assign": "off",
+    "no-param-reassign": "off"
   }
 }
