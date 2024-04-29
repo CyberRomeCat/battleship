@@ -37,17 +37,18 @@ const ships = () => {
 
 const gameBoard = () => {
   const board = {};
+  const missed = [];
 
   function placeShip(shipObject, XCoord, YCoord,direction) {
     let coordinates = [XCoord,YCoord];
     let join = coordinates.join("");
-    board[join] = shipObject;
+    board[join] = [shipObject];
     if(direction === 'horizontal') {
       let newY = YCoord
       for (let i = 0; i < shipObject.length - 1; i++) {
         coordinates = [XCoord, newY += 1] 
         join = coordinates.join("");
-        board[join] = shipObject
+        board[join] = [shipObject]
       }
     } else {
       let charCode = XCoord.charCodeAt(0);  
@@ -57,14 +58,25 @@ const gameBoard = () => {
         tranlateToletter = String.fromCharCode(charCode)
         coordinates = [tranlateToletter, YCoord];
         join = coordinates.join("");
-        board[join] = shipObject
+        board[join] = [shipObject]
       }
+    }
+  }
+
+  function recieveAttack(coord) {
+    if(coord in board) {
+      board[coord][0].hit()
+      board[coord].push('hit');
+    } else {
+      missed.push(coord);
     }
   }
 
   return {
     placeShip,
-    board
+    board,
+    recieveAttack,
+    missed
   }
 }
 
