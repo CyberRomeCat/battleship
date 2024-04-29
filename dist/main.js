@@ -15,7 +15,7 @@
   \**********************/
 /***/ (() => {
 
-eval("throw new Error(\"Module parse failed: Unexpected token (17:4)\\nYou may need an appropriate loader to handle this file type, currently no loaders are configured to process this file. See https://webpack.js.org/concepts#loaders\\n| \\n|   return (\\n>     <div\\n|       className=\\\"HelloWorld\\\"\\n|       title={`You are visitor number ${num}`}\");\n\n//# sourceURL=webpack://project-setup-template/./src/index.js?");
+eval("const ships = () => {\n  let tasks = {\n    length: 1,\n    hits: 0,\n    sunk: false,\n    hit() {\n      this.hits += 1;\n      this.length -= 1;\n    },\n    isSunk() {\n      return this.length === 0 ? (this.sunk = true) : (this.sunk = false);\n    },\n  };\n\n  let battleShip = Object.assign({}, tasks);\n  let cruiser = Object.assign({}, tasks);\n  let carrier = Object.assign({}, tasks);\n  let submarine = Object.assign({}, tasks);\n  let destroyer = Object.assign({}, tasks);\n\n  let allShips = [battleShip, cruiser, carrier, submarine, destroyer];\n  allShips.forEach((ship) => {\n    if (ship === carrier) ship.length = 5;\n    if (ship == battleShip) ship.length = 4;\n    if (ship == cruiser || ship == submarine) ship.length = 3;\n    if (ship == destroyer) ship.length = 2;\n  });\n\n  return {\n    battleShip,\n    cruiser,\n    carrier,\n    submarine,\n    destroyer,\n  };\n};\n\n\n//# sourceURL=webpack://project-setup-template/./src/index.js?");
 
 /***/ })
 
@@ -24,7 +24,7 @@ eval("throw new Error(\"Module parse failed: Unexpected token (17:4)\\nYou may n
 /******/ 	
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
-/******/ 	// This entry module doesn't tell about it's top-level declarations so it can't be inlined
+/******/ 	// This entry module can't be inlined because the eval devtool is used.
 /******/ 	var __webpack_exports__ = {};
 /******/ 	__webpack_modules__["./src/index.js"]();
 /******/ 	
