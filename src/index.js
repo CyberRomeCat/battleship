@@ -1,5 +1,5 @@
 const ships = () => {
-  let tasks = {
+  const tasks = {
     length: 1,
     hits: 0,
     sunk: false,
@@ -12,18 +12,18 @@ const ships = () => {
     },
   };
 
-  let battleShip = Object.assign({}, tasks);
-  let cruiser = Object.assign({}, tasks);
-  let carrier = Object.assign({}, tasks);
-  let submarine = Object.assign({}, tasks);
-  let destroyer = Object.assign({}, tasks);
+  const battleShip = { ...tasks};
+  const cruiser = { ...tasks};
+  const carrier = { ...tasks};
+  const submarine = { ...tasks};
+  const destroyer = { ...tasks};
 
-  let allShips = [battleShip, cruiser, carrier, submarine, destroyer];
+  const allShips = [battleShip, cruiser, carrier, submarine, destroyer];
   allShips.forEach((ship) => {
-    if (ship === carrier) ship.length = 5;
-    if (ship == battleShip) ship.length = 4;
-    if (ship == cruiser || ship == submarine) ship.length = 3;
-    if (ship == destroyer) ship.length = 2;
+    if (ship === carrier) ship.length = 4;
+    if (ship === battleShip) ship.length = 3;
+    if (ship === cruiser || ship === submarine) ship.length = 2;
+    if (ship === destroyer) ship.length = 1;
   });
 
   return {
@@ -34,3 +34,38 @@ const ships = () => {
     destroyer,
   };
 };
+
+const gameBoard = () => {
+  const board = {};
+
+  function placeShip(shipObject, XCoord, YCoord,direction) {
+    let coordinates = [XCoord,YCoord];
+    let join = coordinates.join("");
+    board[join] = shipObject;
+    if(direction === 'horizontal') {
+      let newY = YCoord
+      for (let i = 0; i < shipObject.length - 1; i++) {
+        coordinates = [XCoord, newY += 1] 
+        join = coordinates.join("");
+        board[join] = shipObject
+      }
+    } else {
+      let charCode = XCoord.charCodeAt(0);  
+      let tranlateToletter;   
+      for(let i = 0; i < shipObject.length - 1; i++) {
+        charCode += 1;
+        tranlateToletter = String.fromCharCode(charCode)
+        coordinates = [tranlateToletter, YCoord];
+        join = coordinates.join("");
+        board[join] = shipObject
+      }
+    }
+  }
+
+  return {
+    placeShip,
+    board
+  }
+}
+
+export {gameBoard, ships}
