@@ -92,4 +92,14 @@ const gameBoard = () => {
   };
 };
 
-export { gameBoard, ships };
+const Player = () => {
+  const real = gameBoard();
+  const computer = gameBoard();
+
+  return {
+    real,
+    computer,
+  };
+};
+
+export { gameBoard, ships, Player };
