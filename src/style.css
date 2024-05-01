@@ -1,0 +1,35 @@
+.container-for-boards {
+  display: flex;
+}
+
+#board-1,
+#board-2 {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  background: red;
+  height: 50vh;
+  width: 50vw;
+}
+
+#board-2 {
+  background-color: lightblue;
+}
+
+.gridColumn,
+.gridColumn2 {
+  border: 1px solid black;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.cell {
+  border: 1px solid black;
+  background-color: bisque;
+  width: 100%;
+  height: 100%;
+}
+
+.gridColumn2 > div {
+  background: lightcoral;
+}
