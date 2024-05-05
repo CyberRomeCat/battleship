@@ -40,15 +40,21 @@ function gridForPlayers() {
 
 function placeColorShip() {
   Object.keys(player1.board).forEach((key) => {
-    const id = document.getElementById(key);
-    id.style.backgroundColor = "lightBlue";
-  });
-  Object.keys(player2.board).forEach((key) => {
-    const id = document.getElementById(key);
-    id.style.backgroundColor = "lightBlue";
     const board = document.querySelectorAll("[data-board]");
     board.forEach((n) => {
-      if (n.getAttribute("id") === key) {
+      const attribute = n.getAttribute("data-board");
+      const keyID = n.getAttribute("id");
+      if (attribute === "1" && keyID === key) {
+        n.style.backgroundColor = "lightBlue";
+      }
+    });
+  });
+  Object.keys(player2.board).forEach((key) => {
+    const board = document.querySelectorAll("[data-board]");
+    board.forEach((n) => {
+      const keyID = n.getAttribute("id");
+      const attribute = n.getAttribute("data-board");
+      if (attribute === "2" && keyID === key) {
         n.style.backgroundColor = "lightBlue";
       }
     });
