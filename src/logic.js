@@ -105,6 +105,49 @@ const Player = () => {
 const player1 = Player().real;
 const player2 = Player().computer;
 
+const gameController = (playerone = player1, playertwo = player2) => {
+  const players = [playerone, playertwo];
+
+  let activePlayer = players[0];
+
+  const getActivePlayer = () => activePlayer;
+
+  function switchPlayer() {
+    activePlayer =
+      activePlayer === players[0]
+        ? (activePlayer = players[1])
+        : (activePlayer = players[0]);
+  }
+
+  function disableCells() {
+    if (getActivePlayer() === playerone) {
+      const cells = document.querySelectorAll(".cell");
+      cells.forEach((n) => {
+        const attribute = n.getAttribute("data-coordinate");
+        if (attribute[3] === "2" || attribute[4] === "2") {
+          n.disabled = true;
+        }
+        if (attribute[3] === "1" || attribute[4] === "1") {
+          n.removeAttribute("disabled");
+        }
+      });
+    } else if (getActivePlayer() === playertwo) {
+      const cells = document.querySelectorAll(".cell");
+      cells.forEach((n) => {
+        const attribute = n.getAttribute("data-coordinate");
+        if (attribute[3] === "1" || attribute[4] === "1") {
+          n.disabled = true;
+        }
+        if (attribute[3] === "2" || attribute[4] === "2") {
+          n.removeAttribute("disabled");
+        }
+      });
+    }
+  }
+
+  return { switchPlayer, disableCells };
+};
+
 const allShipsPlayer1 = ships();
 player1.placeShip(allShipsPlayer1.carrier, "B", 2, "vertical");
 player1.placeShip(allShipsPlayer1.battleShip, "D", 8, "horizontal");
@@ -119,4 +162,4 @@ player2.placeShip(allShipsPlayer2.cruiser, "J", 5, "horizontal");
 player2.placeShip(allShipsPlayer2.submarine, "A", 8, "vertical");
 player2.placeShip(allShipsPlayer2.destroyer, "B", 6, "vertical");
 
-export { player1, player2 };
+export { player1, player2, gameController };

@@ -1,12 +1,18 @@
 import { attack } from "./DOM";
+import { gameController } from "./logic";
 
 const eventListeners = () => {
   const allCells = document.querySelectorAll(".cell");
+  const controller = gameController();
   allCells.forEach((c) => {
     const coord = c.getAttribute("data-coordinate");
-    const dBoard = c.getAttribute("data-board");
-    c.addEventListener("click", () => attack(coord, dBoard));
+    c.addEventListener("click", () => {
+      controller.switchPlayer();
+      controller.disableCells();
+      attack(coord);
+    });
   });
+  controller.disableCells();
 };
 
 export default eventListeners;

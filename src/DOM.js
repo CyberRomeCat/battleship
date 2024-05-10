@@ -21,8 +21,10 @@ function makeRows(cellNum, className, board) {
       rows[j].appendChild(newCell).className = "cell";
       const rowId = rows[j].getAttribute("id");
       tranlateToletter = String.fromCharCode(charCode);
-      newCell.setAttribute("data-coordinate", `${tranlateToletter}${rowId}`);
-      newCell.setAttribute("data-board", `${board}`);
+      newCell.setAttribute(
+        "data-coordinate",
+        `${tranlateToletter}${rowId}-${board}`,
+      );
     }
     charCode += 1;
   }
@@ -40,33 +42,30 @@ function gridForPlayers() {
 
 function placeColorShip() {
   Object.keys(player1.board).forEach((key) => {
-    const board = document.querySelectorAll("[data-board]");
+    const board = document.querySelectorAll(".cell");
     board.forEach((n) => {
-      const attribute = n.getAttribute("data-board");
       const coordinate = n.getAttribute("data-coordinate");
-      if (attribute === "1" && coordinate === key) {
+      if (coordinate === `${key}-1`) {
         n.style.backgroundColor = "lightBlue";
       }
     });
   });
   Object.keys(player2.board).forEach((key) => {
-    const board = document.querySelectorAll("[data-board]");
+    const board = document.querySelectorAll(".cell");
     board.forEach((n) => {
       const coordinate = n.getAttribute("data-coordinate");
-      const attribute = n.getAttribute("data-board");
-      if (attribute === "2" && coordinate === key) {
+      if (coordinate === `${key}-2`) {
         n.style.backgroundColor = "lightBlue";
       }
     });
   });
 }
 
-function attack(coord, dataBoard) {
-  const board = document.querySelectorAll("[data-board]");
+function attack(coord) {
+  const board = document.querySelectorAll(".cell");
   board.forEach((n) => {
-    const c = n.getAttribute("data-coordinate");
-    const attribute = n.getAttribute("data-board");
-    if (attribute === dataBoard && c === coord) {
+    const coordinate = n.getAttribute("data-coordinate");
+    if (coordinate === coord) {
       n.style.backgroundColor = "red";
     }
   });
