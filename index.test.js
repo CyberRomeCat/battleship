@@ -1,4 +1,4 @@
-import { gameBoard, ships } from "./src/index.js";
+import { gameBoard, ships } from "./src/logic.js";
 
 let board = gameBoard();
 let ship = ships();
@@ -19,4 +19,15 @@ test("report if ship has sunk", () => {
   board.recieveAttack("D3");
   board.recieveAttack("E3");
   expect(board.checkAllShipsSunk()).toBe("GameOver");
+});
+
+test("non active player cells disabled eventlistener", () => {
+  const controller = gameController();
+  controller.disableCells();
+  if (controller.getActivePlayer() === player1) {
+    let board2 = document.querySelectorAll("[data-board]");
+    board2.forEach((c) => {
+      expect(c.disabled).toBe(true);
+    });
+  }
 });
