@@ -30,6 +30,6 @@
   height: 100%;
 }
 
-.gridColumn2 > div {
+.gridColumn2 > button {
   background: lightcoral;
 }

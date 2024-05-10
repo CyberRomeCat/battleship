@@ -17,7 +17,7 @@ function makeRows(cellNum, className, board) {
   let tranlateToletter;
   for (let i = 0; i < rows.length; i++) {
     for (let j = 0; j < cellNum; j++) {
-      const newCell = document.createElement("div");
+      const newCell = document.createElement("button");
       rows[j].appendChild(newCell).className = "cell";
       const rowId = rows[j].getAttribute("id");
       tranlateToletter = String.fromCharCode(charCode);
