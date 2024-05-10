@@ -21,7 +21,7 @@ function makeRows(cellNum, className, board) {
       rows[j].appendChild(newCell).className = "cell";
       const rowId = rows[j].getAttribute("id");
       tranlateToletter = String.fromCharCode(charCode);
-      newCell.setAttribute("id", `${tranlateToletter}${rowId}`);
+      newCell.setAttribute("data-coordinate", `${tranlateToletter}${rowId}`);
       newCell.setAttribute("data-board", `${board}`);
     }
     charCode += 1;
@@ -43,8 +43,8 @@ function placeColorShip() {
     const board = document.querySelectorAll("[data-board]");
     board.forEach((n) => {
       const attribute = n.getAttribute("data-board");
-      const keyID = n.getAttribute("id");
-      if (attribute === "1" && keyID === key) {
+      const coordinate = n.getAttribute("data-coordinate");
+      if (attribute === "1" && coordinate === key) {
         n.style.backgroundColor = "lightBlue";
       }
     });
@@ -52,13 +52,24 @@ function placeColorShip() {
   Object.keys(player2.board).forEach((key) => {
     const board = document.querySelectorAll("[data-board]");
     board.forEach((n) => {
-      const keyID = n.getAttribute("id");
+      const coordinate = n.getAttribute("data-coordinate");
       const attribute = n.getAttribute("data-board");
-      if (attribute === "2" && keyID === key) {
+      if (attribute === "2" && coordinate === key) {
         n.style.backgroundColor = "lightBlue";
       }
     });
   });
 }
 
-export { gridForPlayers, placeColorShip };
+function attack(coord, dataBoard) {
+  const board = document.querySelectorAll("[data-board]");
+  board.forEach((n) => {
+    const c = n.getAttribute("data-coordinate");
+    const attribute = n.getAttribute("data-board");
+    if (attribute === dataBoard && c === coord) {
+      n.style.backgroundColor = "red";
+    }
+  });
+}
+
+export { gridForPlayers, placeColorShip, attack };
