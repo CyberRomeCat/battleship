@@ -162,4 +162,4 @@ player2.placeShip(allShipsPlayer2.cruiser, "J", 5, "horizontal");
 player2.placeShip(allShipsPlayer2.submarine, "A", 8, "vertical");
 player2.placeShip(allShipsPlayer2.destroyer, "B", 6, "vertical");
 
-export { player1, player2, gameController };
+export { player1, player2, gameController, ships, gameBoard };
