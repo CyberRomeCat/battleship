@@ -142,6 +142,7 @@ const gameController = (playerone = player1, playertwo = player2) => {
   function computerMoves() {
     const randomCoord = generateRandomCoord();
     attack(randomCoord);
+    console.log(getActivePlayer().board);
     updateRecieveAttack(randomCoord);
     switchPlayer();
     // eslint-disable-next-line no-use-before-define
@@ -172,7 +173,7 @@ const gameController = (playerone = player1, playertwo = player2) => {
           n.removeAttribute("disabled");
         }
       });
-      computerMoves();
+      setTimeout(computerMoves, 2000);
     }
   }
 
