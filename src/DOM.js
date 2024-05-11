@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-cycle
 import { player1, player2 } from "./logic";
 
 const board1 = document.getElementById("board-1");
@@ -45,7 +46,7 @@ function placeColorShip() {
     const board = document.querySelectorAll(".cell");
     board.forEach((n) => {
       const coordinate = n.getAttribute("data-coordinate");
-      if (coordinate === `${key}-1`) {
+      if (coordinate === key) {
         n.style.backgroundColor = "lightBlue";
       }
     });
@@ -54,7 +55,7 @@ function placeColorShip() {
     const board = document.querySelectorAll(".cell");
     board.forEach((n) => {
       const coordinate = n.getAttribute("data-coordinate");
-      if (coordinate === `${key}-2`) {
+      if (coordinate === key) {
         n.style.backgroundColor = "lightBlue";
       }
     });
@@ -71,4 +72,11 @@ function attack(coord) {
   });
 }
 
-export { gridForPlayers, placeColorShip, attack };
+function disableAttackedCells() {
+  const allAttackedCells = document.querySelectorAll("[data-attacked]");
+  allAttackedCells.forEach((c) => {
+    c.disabled = true;
+  });
+}
+
+export { gridForPlayers, placeColorShip, attack, disableAttackedCells };

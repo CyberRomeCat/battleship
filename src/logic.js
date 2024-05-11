@@ -43,17 +43,19 @@ const gameBoard = () => {
   const missed = [];
   const allShips = [];
 
-  function placeShip(shipObject, XCoord, YCoord, direction) {
+  const getBoard = () => board;
+
+  function placeShip(shipObject, XCoord, YCoord, direction, boardNum) {
     allShips.push(shipObject);
     let coordinates = [XCoord, YCoord];
     let join = coordinates.join("");
-    board[join] = [shipObject];
+    board[`${join}-${boardNum}`] = [shipObject];
     if (direction === "horizontal") {
       let newY = YCoord;
       for (let i = 0; i < shipObject.length - 1; i++) {
         coordinates = [XCoord, (newY += 1)];
         join = coordinates.join("");
-        board[join] = [shipObject];
+        board[`${join}-${boardNum}`] = [shipObject];
       }
     } else {
       let charCode = XCoord.charCodeAt(0);
@@ -63,7 +65,7 @@ const gameBoard = () => {
         tranlateToletter = String.fromCharCode(charCode);
         coordinates = [tranlateToletter, YCoord];
         join = coordinates.join("");
-        board[join] = [shipObject];
+        board[`${join}-${boardNum}`] = [shipObject];
       }
     }
   }
@@ -92,6 +94,7 @@ const gameBoard = () => {
     recieveAttack,
     missed,
     checkAllShipsSunk,
+    getBoard,
   };
 };
 
@@ -131,6 +134,21 @@ const gameController = (playerone = player1, playertwo = player2) => {
     return `${randomX()}${randomY()}-2`;
   }
 
+  function updateRecieveAttack(coord) {
+    if (getActivePlayer() === playerone) player1.recieveAttack(coord);
+    if (getActivePlayer() === playertwo) player2.recieveAttack(coord);
+  }
+
+  function computerMoves() {
+    const randomCoord = generateRandomCoord();
+    attack(randomCoord);
+    updateRecieveAttack(randomCoord);
+    switchPlayer();
+    // eslint-disable-next-line no-use-before-define
+    disableCells();
+    // eslint-disable-next-line no-undef
+  }
+
   function disableCells() {
     if (getActivePlayer() === playerone) {
       const cells = document.querySelectorAll(".cell");
@@ -154,27 +172,30 @@ const gameController = (playerone = player1, playertwo = player2) => {
           n.removeAttribute("disabled");
         }
       });
-      attack(generateRandomCoord());
-      switchPlayer();
-      disableCells();
+      computerMoves();
     }
   }
 
-  return { switchPlayer, disableCells, getActivePlayer };
+  return {
+    switchPlayer,
+    disableCells,
+    getActivePlayer,
+    updateRecieveAttack,
+  };
 };
 
 const allShipsPlayer1 = ships();
-player1.placeShip(allShipsPlayer1.carrier, "B", 2, "vertical");
-player1.placeShip(allShipsPlayer1.battleShip, "D", 8, "horizontal");
-player1.placeShip(allShipsPlayer1.cruiser, "I", 1, "horizontal");
-player1.placeShip(allShipsPlayer1.submarine, "A", 4, "vertical");
-player1.placeShip(allShipsPlayer1.destroyer, "B", 6, "vertical");
+player1.placeShip(allShipsPlayer1.carrier, "B", 2, "vertical", 1);
+player1.placeShip(allShipsPlayer1.battleShip, "D", 8, "horizontal", 1);
+player1.placeShip(allShipsPlayer1.cruiser, "I", 1, "horizontal", 1);
+player1.placeShip(allShipsPlayer1.submarine, "A", 4, "vertical", 1);
+player1.placeShip(allShipsPlayer1.destroyer, "B", 6, "vertical", 1);
 
 const allShipsPlayer2 = ships();
-player2.placeShip(allShipsPlayer2.carrier, "B", 2, "vertical");
-player2.placeShip(allShipsPlayer2.battleShip, "F", 8, "horizontal");
-player2.placeShip(allShipsPlayer2.cruiser, "J", 5, "horizontal");
-player2.placeShip(allShipsPlayer2.submarine, "A", 8, "vertical");
-player2.placeShip(allShipsPlayer2.destroyer, "B", 6, "vertical");
+player2.placeShip(allShipsPlayer2.carrier, "B", 2, "vertical", 2);
+player2.placeShip(allShipsPlayer2.battleShip, "F", 8, "horizontal", 2);
+player2.placeShip(allShipsPlayer2.cruiser, "J", 5, "horizontal", 2);
+player2.placeShip(allShipsPlayer2.submarine, "A", 8, "vertical", 2);
+player2.placeShip(allShipsPlayer2.destroyer, "B", 6, "vertical", 2);
 
 export { player1, player2, gameController, ships, gameBoard };
