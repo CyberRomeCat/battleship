@@ -7,9 +7,9 @@ const eventListeners = () => {
   allCells.forEach((c) => {
     const coord = c.getAttribute("data-coordinate");
     c.addEventListener("click", () => {
+      attack(coord);
       controller.switchPlayer();
       controller.disableCells();
-      attack(coord);
     });
   });
   controller.disableCells();

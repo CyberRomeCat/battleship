@@ -1,4 +1,4 @@
-import { gameBoard, ships } from "./src/logic.js";
+import { gameBoard, ships, gameController } from "./src/logic.js";
 
 let board = gameBoard();
 let ship = ships();
@@ -25,9 +25,10 @@ test("non active player cells disabled eventlistener", () => {
   const controller = gameController();
   controller.disableCells();
   if (controller.getActivePlayer() === player1) {
-    let board2 = document.querySelectorAll("[data-board]");
+    let board2 = document.querySelectorAll(".cell");
     board2.forEach((c) => {
-      expect(c.disabled).toBe(true);
+      let coord = c.getAttribute("data-coordinate");
+      if (coord[3] === "2" || coord[4] === "2") expect(c.disabled).toBe(true);
     });
   }
 });

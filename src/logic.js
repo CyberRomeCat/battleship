@@ -1,3 +1,6 @@
+// eslint-disable-next-line import/no-cycle
+import { attack } from "./DOM";
+
 const ships = () => {
   const tasks = {
     length: 1,
@@ -119,6 +122,15 @@ const gameController = (playerone = player1, playertwo = player2) => {
         : (activePlayer = players[0]);
   }
 
+  function generateRandomCoord() {
+    const randomX = () => {
+      const num = Math.floor(Math.random() * (74 - 65 + 1)) + 65;
+      return String.fromCharCode(num);
+    };
+    const randomY = () => Math.floor(Math.random() * 10 + 1);
+    return `${randomX()}${randomY()}-2`;
+  }
+
   function disableCells() {
     if (getActivePlayer() === playerone) {
       const cells = document.querySelectorAll(".cell");
@@ -142,10 +154,13 @@ const gameController = (playerone = player1, playertwo = player2) => {
           n.removeAttribute("disabled");
         }
       });
+      attack(generateRandomCoord());
+      switchPlayer();
+      disableCells();
     }
   }
 
-  return { switchPlayer, disableCells };
+  return { switchPlayer, disableCells, getActivePlayer };
 };
 
 const allShipsPlayer1 = ships();
