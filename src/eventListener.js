@@ -1,4 +1,4 @@
-import { attack, disableAttackedCells } from "./DOM";
+import { attack } from "./DOM";
 import { gameController } from "./logic";
 
 const eventListeners = () => {
@@ -10,11 +10,7 @@ const eventListeners = () => {
       c.setAttribute("data-attacked", "true");
       controller.updateRecieveAttack(coord);
       attack(coord);
-      controller.switchPlayer();
-      controller.disableCells();
-      disableAttackedCells();
-      console.log(controller.getActivePlayer().missed);
-      console.log(controller.getActivePlayer().getBoard());
+      controller.checkContinueTurn(coord);
     });
   });
   controller.disableCells();

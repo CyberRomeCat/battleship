@@ -1,5 +1,5 @@
 // eslint-disable-next-line import/no-cycle
-import { attack } from "./DOM";
+import { attack, disableAttackedCells } from "./DOM";
 
 const ships = () => {
   const tasks = {
@@ -142,12 +142,10 @@ const gameController = (playerone = player1, playertwo = player2) => {
   function computerMoves() {
     const randomCoord = generateRandomCoord();
     attack(randomCoord);
-    console.log(getActivePlayer().board);
     updateRecieveAttack(randomCoord);
-    switchPlayer();
     // eslint-disable-next-line no-use-before-define
-    disableCells();
-    // eslint-disable-next-line no-undef
+    checkContinueTurn(randomCoord);
+    if (getActivePlayer() === player2) setTimeout(computerMoves, 2000);
   }
 
   function disableCells() {
@@ -155,9 +153,6 @@ const gameController = (playerone = player1, playertwo = player2) => {
       const cells = document.querySelectorAll(".cell");
       cells.forEach((n) => {
         const attribute = n.getAttribute("data-coordinate");
-        if (attribute[3] === "2" || attribute[4] === "2") {
-          n.disabled = true;
-        }
         if (attribute[3] === "1" || attribute[4] === "1") {
           n.removeAttribute("disabled");
         }
@@ -166,14 +161,26 @@ const gameController = (playerone = player1, playertwo = player2) => {
       const cells = document.querySelectorAll(".cell");
       cells.forEach((n) => {
         const attribute = n.getAttribute("data-coordinate");
-        if (attribute[3] === "1" || attribute[4] === "1") {
+        if (
+          attribute[3] === "1" ||
+          attribute[4] === "1" ||
+          attribute[3] === "2" ||
+          attribute[4] === "2"
+        ) {
           n.disabled = true;
-        }
-        if (attribute[3] === "2" || attribute[4] === "2") {
-          n.removeAttribute("disabled");
         }
       });
       setTimeout(computerMoves, 2000);
+    }
+  }
+
+  function checkContinueTurn(coordinates) {
+    if (getActivePlayer().board[coordinates]) {
+      disableAttackedCells();
+    } else {
+      switchPlayer();
+      disableCells();
+      disableAttackedCells();
     }
   }
 
@@ -182,6 +189,7 @@ const gameController = (playerone = player1, playertwo = player2) => {
     disableCells,
     getActivePlayer,
     updateRecieveAttack,
+    checkContinueTurn,
   };
 };
 
