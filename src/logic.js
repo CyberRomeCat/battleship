@@ -23,10 +23,10 @@ const ships = () => {
 
   const allShips = [battleShip, cruiser, carrier, submarine, destroyer];
   allShips.forEach((ship) => {
-    if (ship === carrier) ship.length = 4;
-    if (ship === battleShip) ship.length = 3;
-    if (ship === cruiser || ship === submarine) ship.length = 2;
-    if (ship === destroyer) ship.length = 1;
+    if (ship === carrier) ship.length = 5;
+    if (ship === battleShip) ship.length = 4;
+    if (ship === cruiser || ship === submarine) ship.length = 3;
+    if (ship === destroyer) ship.length = 2;
   });
 
   return {
