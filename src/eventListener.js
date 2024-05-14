@@ -11,6 +11,7 @@ const eventListeners = () => {
       controller.updateRecieveAttack(coord);
       attack(coord);
       controller.checkContinueTurn(coord);
+      controller.getActivePlayer().checkAllShipsSunk("playerone");
     });
   });
   controller.disableCells();

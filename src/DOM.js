@@ -79,4 +79,26 @@ function disableAttackedCells() {
   });
 }
 
-export { gridForPlayers, placeColorShip, attack, disableAttackedCells };
+const displayText = (() => {
+  const announce = document.getElementById("announcer");
+
+  function playerTurn(player) {
+    announce.textContent = `It's ${player}'s turn`;
+  }
+
+  function win(player) {
+    announce.textContent = `${player} has won!!`;
+    alert(`${player} has won!!`);
+    window.location.reload();
+  }
+
+  return { playerTurn, win };
+})();
+
+export {
+  gridForPlayers,
+  placeColorShip,
+  attack,
+  disableAttackedCells,
+  displayText,
+};

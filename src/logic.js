@@ -1,5 +1,5 @@
 // eslint-disable-next-line import/no-cycle
-import { attack, disableAttackedCells } from "./DOM";
+import { attack, disableAttackedCells, displayText } from "./DOM";
 
 const ships = () => {
   const tasks = {
@@ -79,13 +79,14 @@ const gameBoard = () => {
     }
   }
 
-  function checkAllShipsSunk() {
+  function checkAllShipsSunk(player) {
     for (let i = 0; i < allShips.length; i++) {
       if (allShips[i].length !== 0) {
-        return "not over";
+        return;
       }
     }
-    return "GameOver";
+    // eslint-disable-next-line consistent-return
+    displayText.win(player);
   }
 
   return {
@@ -119,10 +120,13 @@ const gameController = (playerone = player1, playertwo = player2) => {
   const getActivePlayer = () => activePlayer;
 
   function switchPlayer() {
-    activePlayer =
-      activePlayer === players[0]
-        ? (activePlayer = players[1])
-        : (activePlayer = players[0]);
+    if (activePlayer === players[0]) {
+      activePlayer = players[1];
+      displayText.playerTurn("computer");
+    } else {
+      activePlayer = players[0];
+      displayText.playerTurn("playerone");
+    }
   }
 
   function generateRandomCoord() {
@@ -143,9 +147,10 @@ const gameController = (playerone = player1, playertwo = player2) => {
     const randomCoord = generateRandomCoord();
     attack(randomCoord);
     updateRecieveAttack(randomCoord);
+    getActivePlayer().checkAllShipsSunk("computer");
     // eslint-disable-next-line no-use-before-define
     checkContinueTurn(randomCoord);
-    if (getActivePlayer() === player2) setTimeout(computerMoves, 2000);
+    if (getActivePlayer() === player2) setTimeout(computerMoves, 1000);
   }
 
   function disableCells() {
@@ -170,7 +175,7 @@ const gameController = (playerone = player1, playertwo = player2) => {
           n.disabled = true;
         }
       });
-      setTimeout(computerMoves, 2000);
+      setTimeout(computerMoves, 1000);
     }
   }
 
