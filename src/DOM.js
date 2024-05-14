@@ -26,6 +26,7 @@ function makeRows(cellNum, className, board) {
         "data-coordinate",
         `${tranlateToletter}${rowId}-${board}`,
       );
+      newCell.setAttribute("disabled", "");
     }
     charCode += 1;
   }

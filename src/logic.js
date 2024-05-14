@@ -117,14 +117,19 @@ const gameController = (playerone = player1, playertwo = player2) => {
 
   let activePlayer = players[0];
 
+  // eslint-disable-next-line no-unused-vars
+  let nonActivePlayer = players[1];
+
   const getActivePlayer = () => activePlayer;
 
   function switchPlayer() {
     if (activePlayer === players[0]) {
       activePlayer = players[1];
+      nonActivePlayer = players[0];
       displayText.playerTurn("computer");
     } else {
       activePlayer = players[0];
+      nonActivePlayer = players[1];
       displayText.playerTurn("playerone");
     }
   }
@@ -135,7 +140,7 @@ const gameController = (playerone = player1, playertwo = player2) => {
       return String.fromCharCode(num);
     };
     const randomY = () => Math.floor(Math.random() * 10 + 1);
-    return `${randomX()}${randomY()}-2`;
+    return `${randomX()}${randomY()}-1`;
   }
 
   function updateRecieveAttack(coord) {
@@ -154,15 +159,7 @@ const gameController = (playerone = player1, playertwo = player2) => {
   }
 
   function disableCells() {
-    if (getActivePlayer() === playerone) {
-      const cells = document.querySelectorAll(".cell");
-      cells.forEach((n) => {
-        const attribute = n.getAttribute("data-coordinate");
-        if (attribute[3] === "1" || attribute[4] === "1") {
-          n.removeAttribute("disabled");
-        }
-      });
-    } else if (getActivePlayer() === playertwo) {
+    if (getActivePlayer() === playertwo) {
       const cells = document.querySelectorAll(".cell");
       cells.forEach((n) => {
         const attribute = n.getAttribute("data-coordinate");
@@ -176,11 +173,19 @@ const gameController = (playerone = player1, playertwo = player2) => {
         }
       });
       setTimeout(computerMoves, 1000);
+    } else {
+      const cells = document.querySelectorAll(".cell");
+      cells.forEach((n) => {
+        const attribute = n.getAttribute("data-coordinate");
+        if (attribute[3] === "2" || attribute[4] === "2") {
+          n.removeAttribute("disabled");
+        }
+      });
     }
   }
 
   function checkContinueTurn(coordinates) {
-    if (getActivePlayer().board[coordinates]) {
+    if (nonActivePlayer.board[coordinates]) {
       disableAttackedCells();
     } else {
       switchPlayer();
