@@ -163,12 +163,7 @@ const gameController = (playerone = player1, playertwo = player2) => {
       const cells = document.querySelectorAll(".cell");
       cells.forEach((n) => {
         const attribute = n.getAttribute("data-coordinate");
-        if (
-          attribute[3] === "1" ||
-          attribute[4] === "1" ||
-          attribute[3] === "2" ||
-          attribute[4] === "2"
-        ) {
+        if (attribute[3] === "1" || attribute[3] === "2") {
           n.disabled = true;
         }
       });
@@ -177,7 +172,7 @@ const gameController = (playerone = player1, playertwo = player2) => {
       const cells = document.querySelectorAll(".cell");
       cells.forEach((n) => {
         const attribute = n.getAttribute("data-coordinate");
-        if (attribute[3] === "2" || attribute[4] === "2") {
+        if (attribute[3] === "2") {
           n.removeAttribute("disabled");
         }
       });

@@ -8,7 +8,7 @@ function makeColumn(rowNum, container, className) {
   for (let r = 0; r < rowNum; r++) {
     const row = document.createElement("div");
     container.appendChild(row).className = `${className}`;
-    row.setAttribute("id", `${r + 1}`);
+    row.setAttribute("id", `${r}`);
   }
 }
 
