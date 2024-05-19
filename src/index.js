@@ -27,6 +27,7 @@ const q = [
 
 const attackListener = () => {
   const controller = gameController();
+  controller.disableCells();
   allCells.forEach((c) => {
     hideBoard();
     const coord = c.getAttribute("data-coordinate");
@@ -38,7 +39,6 @@ const attackListener = () => {
       controller.getActivePlayer().checkAllShipsSunk("playerone");
     });
   });
-  controller.disableCells();
 };
 
 if (q.length !== 0) {

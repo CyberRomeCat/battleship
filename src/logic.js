@@ -51,7 +51,7 @@ const gameBoard = () => {
     let join = coordinates.join("");
     board[`${join}-${boardNum}`] = [shipObject];
     if (direction === "horizontal") {
-      let newY = YCoord;
+      let newY = parseInt(YCoord, 10);
       for (let i = 0; i < shipObject.length - 1; i++) {
         coordinates = [XCoord, (newY += 1)];
         join = coordinates.join("");
@@ -92,6 +92,7 @@ const gameBoard = () => {
   return {
     placeShip,
     board,
+    missed,
     recieveAttack,
     allShips,
     checkAllShipsSunk,
@@ -139,7 +140,7 @@ const gameController = (playerone = player1, playertwo = player2) => {
       const num = Math.floor(Math.random() * (74 - 65 + 1)) + 65;
       return String.fromCharCode(num);
     };
-    const randomY = () => Math.floor(Math.random() * 10 + 1);
+    const randomY = () => Math.floor(Math.random() * 10);
     return `${randomX()}${randomY()}-1`;
   }
 
@@ -149,13 +150,16 @@ const gameController = (playerone = player1, playertwo = player2) => {
   }
 
   function computerMoves() {
-    const randomCoord = generateRandomCoord();
+    let randomCoord = generateRandomCoord();
+    if (playertwo.missed.includes(randomCoord)) {
+      randomCoord = generateRandomCoord();
+    }
     attack(randomCoord);
     updateRecieveAttack(randomCoord);
     // eslint-disable-next-line no-use-before-define
     checkContinueTurn(randomCoord);
     getActivePlayer().checkAllShipsSunk("computer");
-    if (getActivePlayer() === player2) setTimeout(computerMoves, 1000);
+    if (getActivePlayer() === playertwo) setTimeout(computerMoves, 1000);
   }
 
   function disableCells() {
@@ -202,7 +206,7 @@ const userShips = ships();
 
 const allShipsPlayer2 = ships();
 player2.placeShip(allShipsPlayer2.carrier, "B", 2, "vertical", 2);
-player2.placeShip(allShipsPlayer2.battleShip, "F", 8, "horizontal", 2);
+player2.placeShip(allShipsPlayer2.battleShip, "H", 3, "horizontal", 2);
 player2.placeShip(allShipsPlayer2.cruiser, "J", 5, "horizontal", 2);
 player2.placeShip(allShipsPlayer2.submarine, "A", 8, "vertical", 2);
 player2.placeShip(allShipsPlayer2.destroyer, "B", 6, "vertical", 2);
