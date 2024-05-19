@@ -3,10 +3,10 @@
 }
 
 #board-1,
-#board-2 {
+#board-2,
+#board-3 {
   display: grid;
   grid-template-columns: repeat(10, 1fr);
-  background: red;
   height: 50vh;
   width: 50vw;
 }
@@ -15,8 +15,19 @@
   background-color: lightblue;
 }
 
+#board-3 {
+  position: absolute;
+  height: 70%;
+  left: 0;
+  right: 0;
+  margin-top: 5%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .gridColumn,
-.gridColumn2 {
+.gridColumn2,
+.column {
   border: 1px solid black;
   display: flex;
   flex-direction: column;

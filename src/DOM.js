@@ -1,5 +1,5 @@
 // eslint-disable-next-line import/no-cycle
-import { player1, player2 } from "./logic";
+import { player2 } from "./logic";
 
 const board1 = document.getElementById("board-1");
 const board2 = document.getElementById("board-2");
@@ -26,7 +26,6 @@ function makeRows(cellNum, className, board) {
         "data-coordinate",
         `${tranlateToletter}${rowId}-${board}`,
       );
-      newCell.setAttribute("disabled", "");
     }
     charCode += 1;
   }
@@ -43,15 +42,6 @@ function gridForPlayers() {
 }
 
 function placeColorShip() {
-  Object.keys(player1.board).forEach((key) => {
-    const board = document.querySelectorAll(".cell");
-    board.forEach((n) => {
-      const coordinate = n.getAttribute("data-coordinate");
-      if (coordinate === key) {
-        n.style.backgroundColor = "lightBlue";
-      }
-    });
-  });
   Object.keys(player2.board).forEach((key) => {
     const board = document.querySelectorAll(".cell");
     board.forEach((n) => {
@@ -61,6 +51,16 @@ function placeColorShip() {
       }
     });
   });
+}
+
+function placeUserShip(coord, ship) {
+  let c = coord;
+  for (let i = 0; i < ship.length; i++) {
+    const selectCoord = document.querySelector(`[data-coordinate=${c}]`);
+    selectCoord.style.backgroundColor = "lightBlue";
+    // eslint-disable-next-line radix
+    c = c.replace(c[1], parseInt(c[1]) + 1);
+  }
 }
 
 function attack(coord) {
@@ -96,10 +96,18 @@ const displayText = (() => {
   return { playerTurn, win };
 })();
 
+function hideBoard() {
+  const board = document.getElementById("board-3");
+  board.style.display = "none";
+}
+
 export {
   gridForPlayers,
+  defaultGrid,
   placeColorShip,
   attack,
+  hideBoard,
   disableAttackedCells,
   displayText,
+  placeUserShip,
 };

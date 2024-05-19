@@ -93,7 +93,7 @@ const gameBoard = () => {
     placeShip,
     board,
     recieveAttack,
-    missed,
+    allShips,
     checkAllShipsSunk,
     getBoard,
   };
@@ -152,9 +152,9 @@ const gameController = (playerone = player1, playertwo = player2) => {
     const randomCoord = generateRandomCoord();
     attack(randomCoord);
     updateRecieveAttack(randomCoord);
-    getActivePlayer().checkAllShipsSunk("computer");
     // eslint-disable-next-line no-use-before-define
     checkContinueTurn(randomCoord);
+    getActivePlayer().checkAllShipsSunk("computer");
     if (getActivePlayer() === player2) setTimeout(computerMoves, 1000);
   }
 
@@ -198,12 +198,7 @@ const gameController = (playerone = player1, playertwo = player2) => {
   };
 };
 
-const allShipsPlayer1 = ships();
-player1.placeShip(allShipsPlayer1.carrier, "B", 2, "vertical", 1);
-player1.placeShip(allShipsPlayer1.battleShip, "D", 8, "horizontal", 1);
-player1.placeShip(allShipsPlayer1.cruiser, "I", 1, "horizontal", 1);
-player1.placeShip(allShipsPlayer1.submarine, "A", 4, "vertical", 1);
-player1.placeShip(allShipsPlayer1.destroyer, "B", 6, "vertical", 1);
+const userShips = ships();
 
 const allShipsPlayer2 = ships();
 player2.placeShip(allShipsPlayer2.carrier, "B", 2, "vertical", 2);
@@ -212,4 +207,10 @@ player2.placeShip(allShipsPlayer2.cruiser, "J", 5, "horizontal", 2);
 player2.placeShip(allShipsPlayer2.submarine, "A", 8, "vertical", 2);
 player2.placeShip(allShipsPlayer2.destroyer, "B", 6, "vertical", 2);
 
-export { player1, player2, gameController, ships, gameBoard };
+export { player1, player2, gameController, ships, gameBoard, userShips };
+
+// player1.placeShip(userShips.carrier, "B", 2, "vertical", 1);
+// player1.placeShip(userShips.battleShip, "D", 8, "horizontal", 1);
+// player1.placeShip(userShips.cruiser, "I", 1, "horizontal", 1);
+// player1.placeShip(userShips.submarine, "A", 4, "vertical", 1);
+// player1.placeShip(userShips.destroyer, "B", 6, "vertical", 1);
