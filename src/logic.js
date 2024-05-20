@@ -1,5 +1,10 @@
 // eslint-disable-next-line import/no-cycle
-import { attack, disableAttackedCells, displayText } from "./DOM";
+import {
+  attack,
+  disableAttackedCells,
+  displayText,
+  placeUserShip,
+} from "./DOM";
 
 const ships = () => {
   const tasks = {
@@ -51,6 +56,7 @@ const gameBoard = () => {
     let join = coordinates.join("");
     board[`${join}-${boardNum}`] = [shipObject];
     if (direction === "horizontal") {
+      placeUserShip(`${join}-${boardNum}`, shipObject).horizontal();
       let newY = parseInt(YCoord, 10);
       for (let i = 0; i < shipObject.length - 1; i++) {
         coordinates = [XCoord, (newY += 1)];
@@ -58,6 +64,7 @@ const gameBoard = () => {
         board[`${join}-${boardNum}`] = [shipObject];
       }
     } else {
+      placeUserShip(`${join}-${boardNum}`, shipObject).vertical();
       let charCode = XCoord.charCodeAt(0);
       let tranlateToletter;
       for (let i = 0; i < shipObject.length - 1; i++) {
@@ -74,6 +81,7 @@ const gameBoard = () => {
     if (coord in board) {
       board[coord][0].hit();
       board[coord].push("hit");
+      console.log(board);
     } else {
       missed.push(coord);
     }
@@ -145,15 +153,20 @@ const gameController = (playerone = player1, playertwo = player2) => {
   }
 
   function updateRecieveAttack(coord) {
-    if (getActivePlayer() === playerone) player1.recieveAttack(coord);
-    if (getActivePlayer() === playertwo) player2.recieveAttack(coord);
+    if (getActivePlayer() === playerone) player2.recieveAttack(coord);
+    if (getActivePlayer() === playertwo) player1.recieveAttack(coord);
+  }
+
+  function checkMissed(randomCoo) {
+    if (playerone.missed.includes(randomCoo)) {
+      const newRandomCoo = generateRandomCoord();
+      return checkMissed(newRandomCoo);
+    }
+    return randomCoo;
   }
 
   function computerMoves() {
-    let randomCoord = generateRandomCoord();
-    if (playertwo.missed.includes(randomCoord)) {
-      randomCoord = generateRandomCoord();
-    }
+    const randomCoord = checkMissed(generateRandomCoord());
     attack(randomCoord);
     updateRecieveAttack(randomCoord);
     // eslint-disable-next-line no-use-before-define
@@ -205,13 +218,16 @@ const gameController = (playerone = player1, playertwo = player2) => {
 const userShips = ships();
 
 const allShipsPlayer2 = ships();
-player2.placeShip(allShipsPlayer2.carrier, "B", 2, "vertical", 2);
-player2.placeShip(allShipsPlayer2.battleShip, "H", 3, "horizontal", 2);
-player2.placeShip(allShipsPlayer2.cruiser, "J", 5, "horizontal", 2);
-player2.placeShip(allShipsPlayer2.submarine, "A", 8, "vertical", 2);
-player2.placeShip(allShipsPlayer2.destroyer, "B", 6, "vertical", 2);
 
-export { player1, player2, gameController, ships, gameBoard, userShips };
+export {
+  player1,
+  player2,
+  gameController,
+  ships,
+  gameBoard,
+  userShips,
+  allShipsPlayer2,
+};
 
 // player1.placeShip(userShips.carrier, "B", 2, "vertical", 1);
 // player1.placeShip(userShips.battleShip, "D", 8, "horizontal", 1);

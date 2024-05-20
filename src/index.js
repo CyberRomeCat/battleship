@@ -1,19 +1,29 @@
 import "./style.css";
 import {
   gridForPlayers,
-  placeColorShip,
   defaultGrid,
   attack,
   placeUserShip,
   hideBoard,
 } from "./DOM";
 
-import { gameController, userShips, player1 } from "./logic";
+import {
+  gameController,
+  userShips,
+  player1,
+  player2,
+  allShipsPlayer2,
+} from "./logic";
 
 gridForPlayers();
 const board3 = document.getElementById("board-3");
 defaultGrid(10, board3, "column", 0);
-placeColorShip();
+
+player2.placeShip(allShipsPlayer2.carrier, "E", 2, "horizontal", 2);
+player2.placeShip(allShipsPlayer2.battleShip, "D", 5, "horizontal", 2);
+player2.placeShip(allShipsPlayer2.cruiser, "J", 5, "horizontal", 2);
+player2.placeShip(allShipsPlayer2.submarine, "A", 2, "horizontal", 2);
+player2.placeShip(allShipsPlayer2.destroyer, "B", 6, "horizontal", 2);
 
 const allCells = document.querySelectorAll(".cell");
 const direction = "horizontal";
@@ -33,8 +43,8 @@ const attackListener = () => {
     const coord = c.getAttribute("data-coordinate");
     c.addEventListener("click", () => {
       c.setAttribute("data-attacked", "true");
-      controller.updateRecieveAttack(coord);
       attack(coord);
+      controller.updateRecieveAttack(coord);
       controller.checkContinueTurn(coord);
       controller.getActivePlayer().checkAllShipsSunk("playerone");
     });
@@ -43,14 +53,11 @@ const attackListener = () => {
 
 if (q.length !== 0) {
   allCells.forEach((c) => {
-    const coordinate = c.getAttribute("data-coordinate");
-    if (coordinate[3] === "0") {
+    const coord = c.getAttribute("data-coordinate");
+    if (coord[3] === "0") {
       c.addEventListener("click", () => {
-        const coord = c.getAttribute("data-coordinate");
         player1.placeShip(q[0], coord[0], coord[1], direction, 1);
-        placeUserShip(coord, q[0]);
-        const replace = coord.replace(coord[3], parseInt(coord[3], 10) + 1);
-        placeUserShip(replace, q[0]);
+        placeUserShip(coord, q[0]).horizontal();
         q.shift();
         if (q.length === 0) attackListener();
       });

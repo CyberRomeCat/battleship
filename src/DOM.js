@@ -1,5 +1,4 @@
 // eslint-disable-next-line import/no-cycle
-import { player2 } from "./logic";
 
 const board1 = document.getElementById("board-1");
 const board2 = document.getElementById("board-2");
@@ -41,26 +40,30 @@ function gridForPlayers() {
   defaultGrid(10, board2, "gridColumn2", 2);
 }
 
-function placeColorShip() {
-  Object.keys(player2.board).forEach((key) => {
-    const board = document.querySelectorAll(".cell");
-    board.forEach((n) => {
-      const coordinate = n.getAttribute("data-coordinate");
-      if (coordinate === key) {
-        n.style.backgroundColor = "lightBlue";
-      }
-    });
-  });
-}
-
 function placeUserShip(coord, ship) {
   let c = coord;
-  for (let i = 0; i < ship.length; i++) {
-    const selectCoord = document.querySelector(`[data-coordinate=${c}]`);
-    selectCoord.style.backgroundColor = "lightBlue";
-    // eslint-disable-next-line radix
-    c = c.replace(c[1], parseInt(c[1]) + 1);
-  }
+  const horizontal = () => {
+    for (let i = 0; i < ship.length; i++) {
+      const selectCoord = document.querySelector(`[data-coordinate=${c}]`);
+      selectCoord.style.backgroundColor = "lightBlue";
+
+      c = c.replace(c[1], parseInt(c[1], 10) + 1);
+    }
+  };
+
+  const vertical = () => {
+    let charCode = c[0].charCodeAt(0);
+    let tranlateToletter;
+    for (let i = 0; i < ship.length; i++) {
+      const selectCoord = document.querySelector(`[data-coordinate=${c}]`);
+      selectCoord.style.backgroundColor = "lightBlue";
+      charCode += 1;
+      tranlateToletter = String.fromCharCode(charCode);
+      c = c.replace(c[0], tranlateToletter);
+    }
+  };
+
+  return { horizontal, vertical };
 }
 
 function attack(coord) {
@@ -104,7 +107,6 @@ function hideBoard() {
 export {
   gridForPlayers,
   defaultGrid,
-  placeColorShip,
   attack,
   hideBoard,
   disableAttackedCells,
