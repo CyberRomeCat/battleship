@@ -1,7 +1,6 @@
-// eslint-disable-next-line import/no-cycle
-
 const board1 = document.getElementById("board-1");
 const board2 = document.getElementById("board-2");
+const board3 = document.getElementById("board-0");
 
 function makeColumn(rowNum, container, className) {
   for (let r = 0; r < rowNum; r++) {
@@ -36,8 +35,9 @@ function defaultGrid(num, container, className, board) {
 }
 
 function gridForPlayers() {
-  defaultGrid(10, board1, "gridColumn", 1);
-  defaultGrid(10, board2, "gridColumn2", 2);
+  defaultGrid(10, board3, "column", 0);
+  defaultGrid(10, board1, "column-1", 1);
+  defaultGrid(10, board2, "column-2", 2);
 }
 
 function placeUserShip(coord, ship) {
@@ -67,13 +67,8 @@ function placeUserShip(coord, ship) {
 }
 
 function attack(coord) {
-  const board = document.querySelectorAll(".cell");
-  board.forEach((n) => {
-    const coordinate = n.getAttribute("data-coordinate");
-    if (coordinate === coord) {
-      n.style.backgroundColor = "red";
-    }
-  });
+  const cell = document.querySelector(`[data-coordinate=${coord}]`);
+  cell.style.backgroundColor = "red";
 }
 
 function disableAttackedCells() {
@@ -100,7 +95,7 @@ const displayText = (() => {
 })();
 
 function hideBoard() {
-  const board = document.getElementById("board-3");
+  const board = document.getElementById("board-0");
   board.style.display = "none";
 }
 

@@ -1,4 +1,3 @@
-// eslint-disable-next-line import/no-cycle
 import {
   attack,
   disableAttackedCells,
@@ -81,10 +80,10 @@ const gameBoard = () => {
     if (coord in board) {
       board[coord][0].hit();
       board[coord].push("hit");
-      console.log(board);
     } else {
       missed.push(coord);
     }
+    attack(coord);
   }
 
   function checkAllShipsSunk(player) {
@@ -93,7 +92,6 @@ const gameBoard = () => {
         return;
       }
     }
-    // eslint-disable-next-line consistent-return
     displayText.win(player);
   }
 
@@ -126,7 +124,6 @@ const gameController = (playerone = player1, playertwo = player2) => {
 
   let activePlayer = players[0];
 
-  // eslint-disable-next-line no-unused-vars
   let nonActivePlayer = players[1];
 
   const getActivePlayer = () => activePlayer;
@@ -167,7 +164,6 @@ const gameController = (playerone = player1, playertwo = player2) => {
 
   function computerMoves() {
     const randomCoord = checkMissed(generateRandomCoord());
-    attack(randomCoord);
     updateRecieveAttack(randomCoord);
     // eslint-disable-next-line no-use-before-define
     checkContinueTurn(randomCoord);
@@ -215,19 +211,7 @@ const gameController = (playerone = player1, playertwo = player2) => {
   };
 };
 
-const userShips = ships();
-
-const allShipsPlayer2 = ships();
-
-export {
-  player1,
-  player2,
-  gameController,
-  ships,
-  gameBoard,
-  userShips,
-  allShipsPlayer2,
-};
+export { player1, player2, gameController, ships };
 
 // player1.placeShip(userShips.carrier, "B", 2, "vertical", 1);
 // player1.placeShip(userShips.battleShip, "D", 8, "horizontal", 1);
