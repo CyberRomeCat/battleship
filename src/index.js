@@ -1,17 +1,11 @@
 import "./style.css";
 import { gridForPlayers, placeUserShip, hideBoard } from "./DOM";
-import { gameController, player1, player2, ships } from "./logic";
+import { controller, player1, ships, generate } from "./logic";
 
 gridForPlayers();
+generate().randomPlaceShip();
 
 const userShips = ships();
-const computerShips = ships();
-
-player2.placeShip(computerShips.carrier, "E", 2, "horizontal", 2);
-player2.placeShip(computerShips.battleShip, "D", 5, "horizontal", 2);
-player2.placeShip(computerShips.cruiser, "J", 5, "horizontal", 2);
-player2.placeShip(computerShips.submarine, "A", 2, "horizontal", 2);
-player2.placeShip(computerShips.destroyer, "B", 6, "horizontal", 2);
 
 const q = [
   userShips.carrier,
@@ -25,7 +19,6 @@ const allCells = document.querySelectorAll(".cell");
 const direction = "horizontal";
 
 const attackListener = () => {
-  const controller = gameController();
   controller.disableCells();
   hideBoard();
   allCells.forEach((c) => {

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-expressions */
 import {
   attack,
   disableAttackedCells,
@@ -128,6 +129,8 @@ const gameController = (playerone = player1, playertwo = player2) => {
 
   const getActivePlayer = () => activePlayer;
 
+  const getNonActivePlayer = () => nonActivePlayer;
+
   function switchPlayer() {
     if (activePlayer === players[0]) {
       activePlayer = players[1];
@@ -140,35 +143,9 @@ const gameController = (playerone = player1, playertwo = player2) => {
     }
   }
 
-  function generateRandomCoord() {
-    const randomX = () => {
-      const num = Math.floor(Math.random() * (74 - 65 + 1)) + 65;
-      return String.fromCharCode(num);
-    };
-    const randomY = () => Math.floor(Math.random() * 10);
-    return `${randomX()}${randomY()}-1`;
-  }
-
   function updateRecieveAttack(coord) {
     if (getActivePlayer() === playerone) player2.recieveAttack(coord);
     if (getActivePlayer() === playertwo) player1.recieveAttack(coord);
-  }
-
-  function checkMissed(randomCoo) {
-    if (playerone.missed.includes(randomCoo)) {
-      const newRandomCoo = generateRandomCoord();
-      return checkMissed(newRandomCoo);
-    }
-    return randomCoo;
-  }
-
-  function computerMoves() {
-    const randomCoord = checkMissed(generateRandomCoord());
-    updateRecieveAttack(randomCoord);
-    // eslint-disable-next-line no-use-before-define
-    checkContinueTurn(randomCoord);
-    getActivePlayer().checkAllShipsSunk("computer");
-    if (getActivePlayer() === playertwo) setTimeout(computerMoves, 1000);
   }
 
   function disableCells() {
@@ -180,7 +157,8 @@ const gameController = (playerone = player1, playertwo = player2) => {
           n.disabled = true;
         }
       });
-      setTimeout(computerMoves, 1000);
+      // eslint-disable-next-line no-use-before-define
+      setTimeout(CPU().computerMoves, 1000);
     } else {
       const cells = document.querySelectorAll(".cell");
       cells.forEach((n) => {
@@ -206,15 +184,102 @@ const gameController = (playerone = player1, playertwo = player2) => {
     switchPlayer,
     disableCells,
     getActivePlayer,
+    getNonActivePlayer,
     updateRecieveAttack,
     checkContinueTurn,
   };
 };
 
-export { player1, player2, gameController, ships };
+const controller = gameController();
 
-// player1.placeShip(userShips.carrier, "B", 2, "vertical", 1);
-// player1.placeShip(userShips.battleShip, "D", 8, "horizontal", 1);
-// player1.placeShip(userShips.cruiser, "I", 1, "horizontal", 1);
-// player1.placeShip(userShips.submarine, "A", 4, "vertical", 1);
-// player1.placeShip(userShips.destroyer, "B", 6, "vertical", 1);
+const generate = () => {
+  function randomCoord(boardNum, min = 10) {
+    const randomX = () => {
+      const num = Math.floor(Math.random() * (74 - 65 + 1)) + 65;
+      return String.fromCharCode(num);
+    };
+    const randomY = () => Math.floor(Math.random() * min);
+    return `${randomX()}${randomY()}-${boardNum}`;
+  }
+
+  const randomX = (s) => {
+    const num = Math.floor(Math.random() * (74 - 65 + 1 - (s.length - 1)) + 65);
+    return String.fromCharCode(num);
+  };
+
+  // eslint-disable-next-line consistent-return
+  function randomDirection() {
+    const randomNum = Math.floor(Math.random() * (1 - 3) + 3);
+    if (randomNum === 1) return "horizontal";
+    if (randomNum === 2) return "vertical";
+  }
+
+  function randomMoves(player, ship) {
+    const direc = randomDirection();
+    let coordinates;
+    let join;
+    if (direc === "horizontal") {
+      const coord = randomCoord(2, ship.length);
+      let newY = parseInt(coord[1], 10);
+      for (let i = 0; i < ship.length - 1; i++) {
+        coordinates = [coord[0], (newY += 1)];
+        join = coordinates.join("");
+        if (player.board[join]) return randomMoves(player, ship);
+      }
+      return player.placeShip(ship, coord[0], coord[1], direc, 2);
+    }
+    const x = randomX(ship);
+    const y = randomCoord(2);
+    let charCode = x.charCodeAt(0);
+    let tranlateToletter;
+    for (let i = 0; i < ship.length - 1; i++) {
+      charCode += 1;
+      tranlateToletter = String.fromCharCode(charCode);
+      coordinates = [tranlateToletter, y[1]];
+      join = coordinates.join("");
+      if (player.board[join]) return randomMoves(player, ship);
+    }
+    return player.placeShip(ship, x[0], y[1], direc, 2);
+  }
+
+  function randomPlaceShip() {
+    const computerShips = ships();
+    const q = [
+      computerShips.carrier,
+      computerShips.battleShip,
+      computerShips.cruiser,
+      computerShips.destroyer,
+      computerShips.submarine,
+    ];
+    while (q.length !== 0) {
+      randomMoves(player2, q[0]);
+      q.shift();
+    }
+  }
+
+  return { randomCoord, randomPlaceShip };
+};
+
+const CPU = () => {
+  function checkMissed(randomCoo) {
+    if (controller.getNonActivePlayer().missed.includes(randomCoo)) {
+      const newRandomCoo = generate().randomCoord(1);
+      return checkMissed(newRandomCoo);
+    }
+    return randomCoo;
+  }
+
+  function computerMoves() {
+    const randomCoord = checkMissed(generate().randomCoord(1));
+    controller.updateRecieveAttack(randomCoord);
+    // eslint-disable-next-line no-use-before-define
+    controller.checkContinueTurn(randomCoord);
+    controller.getActivePlayer().checkAllShipsSunk("computer");
+    if (controller.getActivePlayer() === player2)
+      setTimeout(computerMoves, 1000);
+  }
+
+  return { computerMoves };
+};
+
+export { controller, player1, player2, gameController, ships, generate };
