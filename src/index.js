@@ -16,7 +16,12 @@ const q = [
 ];
 
 const allCells = document.querySelectorAll(".cell");
-const direction = "horizontal";
+let direction = "horizontal";
+const rotateBtn = document.getElementById("rotate");
+rotateBtn.addEventListener("click", () => {
+  if (direction === "horizontal") return (direction = "vertical");
+  return (direction = "horizontal");
+});
 
 const attackListener = () => {
   controller.disableCells();
@@ -38,7 +43,8 @@ if (q.length !== 0) {
     if (coord[3] === "0") {
       c.addEventListener("click", () => {
         player1.placeShip(q[0], coord[0], coord[1], direction, 1);
-        placeUserShip(coord, q[0]).horizontal();
+        if (direction === "horizontal") placeUserShip(coord, q[0]).horizontal();
+        if (direction === "vertical") placeUserShip(coord, q[0]).vertical();
         q.shift();
         if (q.length === 0) attackListener();
       });

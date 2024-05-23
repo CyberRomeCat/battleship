@@ -15,7 +15,11 @@
   background-color: lightblue;
 }
 
-#board-0 {
+.place-ships {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   position: absolute;
   height: 70%;
   left: 0;

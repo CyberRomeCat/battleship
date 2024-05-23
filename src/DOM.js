@@ -95,7 +95,7 @@ const displayText = (() => {
 })();
 
 function hideBoard() {
-  const board = document.getElementById("board-0");
+  const board = document.querySelector(".place-ships");
   board.style.display = "none";
 }
 
