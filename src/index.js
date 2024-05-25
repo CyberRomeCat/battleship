@@ -38,6 +38,7 @@ const attackListener = () => {
 };
 
 function changeColor(coordinate, direct, color) {
+  if (q.length === 0) return;
   if (direct === "horizontal") {
     for (let i = 0; i < q[0].length; i++) {
       const selectCoord = document.querySelector(
@@ -87,9 +88,26 @@ if (q.length !== 0) {
         changeColor(coord, direction, "bisque"),
       );
       c.addEventListener("click", () => {
-        player1.placeShip(q[0], coord[0], coord[1], direction, 1);
-        if (direction === "horizontal") placeUserShip(coord, q[0]).horizontal();
-        if (direction === "vertical") placeUserShip(coord, q[0]).vertical();
+        if (direction === "horizontal") {
+          const co = coord;
+          let y = parseInt(co[1], 10);
+          for (let i = 0; i < q[0].length - 1; i++) {
+            y += 1;
+            if (y > 9) return;
+          }
+          player1.placeShip(q[0], coord[0], coord[1], direction, 1);
+          placeUserShip(coord, q[0]).horizontal();
+        }
+        if (direction === "vertical") {
+          const co = coord;
+          let x = co[0].charCodeAt(0);
+          for (let i = 0; i < q[0].length - 1; i++) {
+            x += 1;
+            if (x > 74) return;
+          }
+          player1.placeShip(q[0], coord[0], coord[1], direction, 1);
+          placeUserShip(coord, q[0]).vertical();
+        }
         q.shift();
         if (q.length === 0) attackListener();
       });
