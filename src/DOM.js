@@ -94,6 +94,45 @@ const displayText = (() => {
   return { playerTurn, win };
 })();
 
+function hoverColor(coordinate, direct, color, ship) {
+  if (direct === "horizontal") {
+    for (let i = 0; i < ship.length; i++) {
+      const selectCoord = document.querySelector(
+        `[data-coordinate=${coordinate}]`,
+      );
+      if (selectCoord === null) return;
+      if (selectCoord.style.backgroundColor === `lightblue`) {
+        return;
+      }
+      selectCoord.style.backgroundColor = `${color}`;
+
+      coordinate = coordinate.replace(
+        coordinate[1],
+        parseInt(coordinate[1], 10) + 1,
+      );
+    }
+  } else {
+    let charCode = coordinate[0].charCodeAt(0);
+    let tranlateToletter;
+    let coordinates;
+    let join = coordinate;
+    for (let i = 0; i < ship.length; i++) {
+      const selectCoord = document.querySelector(`[data-coordinate=${join}]`);
+      if (selectCoord === null) return;
+      if (selectCoord.style.backgroundColor === `lightblue`) {
+        return;
+      }
+      selectCoord.style.backgroundColor = `${color}`;
+      charCode += 1;
+      tranlateToletter = String.fromCharCode(charCode);
+      coordinates = [tranlateToletter, coordinate[1], "-", coordinate[3]];
+      join = coordinates.join("");
+
+      coordinate = coordinate.replace(coordinate[0], tranlateToletter);
+    }
+  }
+}
+
 function hideBoard() {
   const board = document.querySelector(".place-ships");
   board.style.display = "none";
@@ -107,4 +146,5 @@ export {
   disableAttackedCells,
   displayText,
   placeUserShip,
+  hoverColor,
 };

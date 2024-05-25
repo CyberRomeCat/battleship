@@ -282,4 +282,46 @@ const CPU = () => {
   return { computerMoves };
 };
 
-export { controller, player1, player2, gameController, ships, generate };
+// eslint-disable-next-line consistent-return
+function checkPlaceShip(coord, direc, ship) {
+  let coordinates;
+  let join;
+  let tranlateToletter;
+  if (direc === "horizontal") {
+    const co = coord;
+    let y = parseInt(co[1], 10);
+    for (let i = 0; i < ship.length - 1; i++) {
+      y += 1;
+      if (y > 9) return "q";
+      coordinates = [co[0], y];
+      join = coordinates.join("");
+      if (player1.board[`${join}-1`]) return "q";
+    }
+    player1.placeShip(ship, coord[0], coord[1], direc, 1);
+    placeUserShip(coord, ship).horizontal();
+  }
+  if (direc === "vertical") {
+    const co = coord;
+    let x = co[0].charCodeAt(0);
+    for (let i = 0; i < ship.length - 1; i++) {
+      x += 1;
+      if (x > 74) return "q";
+      tranlateToletter = String.fromCharCode(x);
+      coordinates = [tranlateToletter, co[1]];
+      join = coordinates.join("");
+      if (player1.board[`${join}-1`]) return "q";
+    }
+    player1.placeShip(ship, coord[0], coord[1], direc, 1);
+    placeUserShip(coord, ship).vertical();
+  }
+}
+
+export {
+  controller,
+  player1,
+  player2,
+  gameController,
+  ships,
+  generate,
+  checkPlaceShip,
+};
