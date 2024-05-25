@@ -224,7 +224,7 @@ const generate = () => {
       for (let i = 0; i < ship.length - 1; i++) {
         coordinates = [coord[0], (newY += 1)];
         join = coordinates.join("");
-        if (player.board[join]) return randomMoves(player, ship);
+        if (player.board[`${join}-2`]) return randomMoves(player, ship);
       }
       return player.placeShip(ship, coord[0], coord[1], direc, 2);
     }
@@ -237,7 +237,7 @@ const generate = () => {
       tranlateToletter = String.fromCharCode(charCode);
       coordinates = [tranlateToletter, y[1]];
       join = coordinates.join("");
-      if (player.board[join]) return randomMoves(player, ship);
+      if (player.board[`${join}-2`]) return randomMoves(player, ship);
     }
     return player.placeShip(ship, x[0], y[1], direc, 2);
   }

@@ -88,12 +88,18 @@ if (q.length !== 0) {
         changeColor(coord, direction, "bisque"),
       );
       c.addEventListener("click", () => {
+        let coordinates;
+        let join;
+        let tranlateToletter;
         if (direction === "horizontal") {
           const co = coord;
           let y = parseInt(co[1], 10);
           for (let i = 0; i < q[0].length - 1; i++) {
             y += 1;
             if (y > 9) return;
+            coordinates = [co[0], y];
+            join = coordinates.join("");
+            if (player1.board[`${join}-1`]) return;
           }
           player1.placeShip(q[0], coord[0], coord[1], direction, 1);
           placeUserShip(coord, q[0]).horizontal();
@@ -104,6 +110,10 @@ if (q.length !== 0) {
           for (let i = 0; i < q[0].length - 1; i++) {
             x += 1;
             if (x > 74) return;
+            tranlateToletter = String.fromCharCode(x);
+            coordinates = [tranlateToletter, co[1]];
+            join = coordinates.join("");
+            if (player1.board[`${join}-1`]) return;
           }
           player1.placeShip(q[0], coord[0], coord[1], direction, 1);
           placeUserShip(coord, q[0]).vertical();
