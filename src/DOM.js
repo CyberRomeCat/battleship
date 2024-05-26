@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-cycle
 const board1 = document.getElementById("board-1");
 const board2 = document.getElementById("board-2");
 const board3 = document.getElementById("board-0");
@@ -66,9 +67,13 @@ function placeUserShip(coord, ship) {
   return { horizontal, vertical };
 }
 
-function attack(coord) {
+function attack(coord, player) {
   const cell = document.querySelector(`[data-coordinate=${coord}]`);
-  cell.style.backgroundColor = "red";
+  if (player.board[coord]) {
+    cell.style.backgroundColor = "red";
+  } else {
+    cell.style.backgroundColor = "aquamarine";
+  }
 }
 
 function disableAttackedCells() {

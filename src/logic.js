@@ -75,14 +75,14 @@ const gameBoard = () => {
     }
   }
 
-  function recieveAttack(coord) {
+  function recieveAttack(coord, player) {
     if (coord in board) {
       board[coord][0].hit();
       board[coord].push("hit");
     } else {
       missed.push(coord);
     }
-    attack(coord);
+    attack(coord, player);
   }
 
   function checkAllShipsSunk(player) {
@@ -142,8 +142,8 @@ const gameController = (playerone = player1, playertwo = player2) => {
   }
 
   function updateRecieveAttack(coord) {
-    if (getActivePlayer() === playerone) player2.recieveAttack(coord);
-    if (getActivePlayer() === playertwo) player1.recieveAttack(coord);
+    if (getActivePlayer() === playerone) player2.recieveAttack(coord, player2);
+    if (getActivePlayer() === playertwo) player1.recieveAttack(coord, player1);
   }
 
   function disableCells() {
