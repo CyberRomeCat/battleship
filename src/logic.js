@@ -56,7 +56,6 @@ const gameBoard = () => {
     let join = coordinates.join("");
     board[`${join}-${boardNum}`] = [shipObject];
     if (direction === "horizontal") {
-      placeUserShip(`${join}-${boardNum}`, shipObject).horizontal();
       let newY = parseInt(YCoord, 10);
       for (let i = 0; i < shipObject.length - 1; i++) {
         coordinates = [XCoord, (newY += 1)];
@@ -64,7 +63,6 @@ const gameBoard = () => {
         board[`${join}-${boardNum}`] = [shipObject];
       }
     } else {
-      placeUserShip(`${join}-${boardNum}`, shipObject).vertical();
       let charCode = XCoord.charCodeAt(0);
       let tranlateToletter;
       for (let i = 0; i < shipObject.length - 1; i++) {
@@ -287,6 +285,8 @@ function checkPlaceShip(coord, direc, ship) {
   let coordinates;
   let join;
   let tranlateToletter;
+  join = [coord[0], coord[1]].join("");
+  if (player1.board[`${join}-1`]) return "q";
   if (direc === "horizontal") {
     const co = coord;
     let y = parseInt(co[1], 10);
@@ -297,6 +297,8 @@ function checkPlaceShip(coord, direc, ship) {
       join = coordinates.join("");
       if (player1.board[`${join}-1`]) return "q";
     }
+    join = [coord[0], coord[1]].join("");
+    placeUserShip(`${join}-1`, ship).horizontal();
     player1.placeShip(ship, coord[0], coord[1], direc, 1);
     placeUserShip(coord, ship).horizontal();
   }
@@ -311,6 +313,8 @@ function checkPlaceShip(coord, direc, ship) {
       join = coordinates.join("");
       if (player1.board[`${join}-1`]) return "q";
     }
+    join = [coord[0], coord[1]].join("");
+    placeUserShip(`${join}-1`, ship).vertical();
     player1.placeShip(ship, coord[0], coord[1], direc, 1);
     placeUserShip(coord, ship).vertical();
   }
