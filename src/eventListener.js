@@ -52,6 +52,7 @@ const DOMEvents = () => {
         });
         c.addEventListener("click", () => {
           if (checkPlaceShip(coord, direction, q[0]) === "q") return;
+          controller.disableCellsAroundShip(coord, direction, q[0], 0);
           q.shift();
           if (q.length === 0) attackOpponent();
         });

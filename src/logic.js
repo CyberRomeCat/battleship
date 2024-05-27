@@ -168,6 +168,66 @@ const gameController = (playerone = player1, playertwo = player2) => {
     }
   }
 
+  function disableDataCoord(coord) {
+    const selectCoord = document.querySelector(`[data-coordinate=${coord}]`);
+    selectCoord.disabled = true;
+  }
+
+  function disableCellsAroundShip(coord, direction, ship, boardNum) {
+    const x = coord[0];
+    let charCode = x.charCodeAt(0);
+    let toString;
+    let y = coord[1];
+    let join;
+    if (direction === "horizontal") {
+      y -= 1;
+      join = `${x}${y}-${boardNum}`;
+      disableDataCoord(join);
+      charCode -= 1;
+      toString = String.fromCharCode(charCode);
+      join = `${toString}${y}-${boardNum}`;
+      disableDataCoord(join);
+      for (let i = 0; i < ship.length + 1; i++) {
+        y += 1;
+        join = `${toString}${y}-${boardNum}`;
+        disableDataCoord(join);
+      }
+      charCode += 2;
+      toString = String.fromCharCode(charCode);
+      join = `${toString}${y}-${boardNum}`;
+      disableDataCoord(join);
+      for (let i = 0; i < ship.length + 1; i++) {
+        y -= 1;
+        join = `${toString}${y}-${boardNum}`;
+        disableDataCoord(join);
+      }
+    } else {
+      charCode -= 1;
+      toString = String.fromCharCode(charCode);
+      join = `${toString}${y}-${boardNum}`;
+      disableDataCoord(join);
+      y = parseInt(y, 10);
+      y += 1;
+      join = `${toString}${y}-${boardNum}`;
+      disableDataCoord(join);
+      for (let i = 0; i < ship.length + 1; i++) {
+        charCode += 1;
+        toString = String.fromCharCode(charCode);
+        join = `${toString}${y}-${boardNum}`;
+        disableDataCoord(join);
+      }
+      y -= 2;
+      join = `${x}${y}-${boardNum}`;
+      disableDataCoord(join);
+      for (let i = 0; i < ship.length + 1; i++) {
+        charCode -= 1;
+        toString = String.fromCharCode(charCode);
+        join = `${toString}${y}-${boardNum}`;
+        disableDataCoord(join);
+      }
+    }
+  }
+
   function checkContinueTurn(coordinates) {
     if (nonActivePlayer.board[coordinates]) {
       disableAttackedCells();
@@ -181,6 +241,7 @@ const gameController = (playerone = player1, playertwo = player2) => {
   return {
     switchPlayer,
     disableNonActivePlayerCells,
+    disableCellsAroundShip,
     getActivePlayer,
     getNonActivePlayer,
     updateRecieveAttack,
