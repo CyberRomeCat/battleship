@@ -1,7 +1,6 @@
-// eslint-disable-next-line import/no-cycle
 const board1 = document.getElementById("board-1");
 const board2 = document.getElementById("board-2");
-const board3 = document.getElementById("board-0");
+const board0 = document.getElementById("board-0");
 
 function makeColumn(rowNum, container, className) {
   for (let r = 0; r < rowNum; r++) {
@@ -36,7 +35,7 @@ function defaultGrid(num, container, className, board) {
 }
 
 function gridForPlayers() {
-  defaultGrid(10, board3, "column", 0);
+  defaultGrid(10, board0, "column", 0);
   defaultGrid(10, board1, "column-1", 1);
   defaultGrid(10, board2, "column-2", 2);
 }
@@ -145,7 +144,6 @@ function hideBoard() {
 
 export {
   gridForPlayers,
-  defaultGrid,
   attack,
   hideBoard,
   disableAttackedCells,

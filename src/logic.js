@@ -146,7 +146,7 @@ const gameController = (playerone = player1, playertwo = player2) => {
     if (getActivePlayer() === playertwo) player1.recieveAttack(coord, player1);
   }
 
-  function disableCells() {
+  function disableNonActivePlayerCells() {
     if (getActivePlayer() === playertwo) {
       const cells = document.querySelectorAll(".cell");
       cells.forEach((n) => {
@@ -173,14 +173,14 @@ const gameController = (playerone = player1, playertwo = player2) => {
       disableAttackedCells();
     } else {
       switchPlayer();
-      disableCells();
+      disableNonActivePlayerCells();
       disableAttackedCells();
     }
   }
 
   return {
     switchPlayer,
-    disableCells,
+    disableNonActivePlayerCells,
     getActivePlayer,
     getNonActivePlayer,
     updateRecieveAttack,
@@ -205,11 +205,10 @@ const generate = () => {
     return String.fromCharCode(num);
   };
 
-  // eslint-disable-next-line consistent-return
   function randomDirection() {
     const randomNum = Math.floor(Math.random() * (1 - 3) + 3);
     if (randomNum === 1) return "horizontal";
-    if (randomNum === 2) return "vertical";
+    return "vertical";
   }
 
   function randomMoves(player, ship) {
@@ -280,6 +279,16 @@ const CPU = () => {
   return { computerMoves };
 };
 
+function placeShipBoardOne(userShip, coordinate, direct, coord1) {
+  player1.placeShip(userShip, coordinate[0], coordinate[1], direct, 1);
+  if (direct === "horizontal") {
+    placeUserShip(`${coord1}-1`, userShip).horizontal();
+    placeUserShip(coordinate, userShip).horizontal();
+  } else {
+    placeUserShip(`${coord1}-1`, userShip).vertical();
+    placeUserShip(coordinate, userShip).vertical();
+  }
+}
 // eslint-disable-next-line consistent-return
 function checkPlaceShip(coord, direc, ship) {
   let coordinates;
@@ -298,9 +307,7 @@ function checkPlaceShip(coord, direc, ship) {
       if (player1.board[`${join}-1`]) return "q";
     }
     join = [coord[0], coord[1]].join("");
-    placeUserShip(`${join}-1`, ship).horizontal();
-    player1.placeShip(ship, coord[0], coord[1], direc, 1);
-    placeUserShip(coord, ship).horizontal();
+    placeShipBoardOne(ship, coord, direc, join);
   }
   if (direc === "vertical") {
     const co = coord;
@@ -314,9 +321,7 @@ function checkPlaceShip(coord, direc, ship) {
       if (player1.board[`${join}-1`]) return "q";
     }
     join = [coord[0], coord[1]].join("");
-    placeUserShip(`${join}-1`, ship).vertical();
-    player1.placeShip(ship, coord[0], coord[1], direc, 1);
-    placeUserShip(coord, ship).vertical();
+    placeShipBoardOne(ship, coord, direc, join);
   }
 }
 

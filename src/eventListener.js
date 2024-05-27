@@ -14,7 +14,7 @@ const DOMEvents = () => {
   const d = document;
 
   function attackOpponent() {
-    controller.disableCells();
+    controller.disableNonActivePlayerCells();
     hideBoard();
     d.addEventListener("click", (e) => {
       const coord = e.target.getAttribute("data-coordinate");
