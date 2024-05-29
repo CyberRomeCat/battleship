@@ -1,14 +1,40 @@
+body {
+  background-color: #2c464f;
+}
+
+@import url("https://fonts.googleapis.com/css2?family=Inria+Serif:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Jersey+10&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap");
+
 .container-for-boards {
   display: flex;
 }
 
 #board-1,
+#board-2 {
+  display: none;
+}
+
+#board-1,
 #board-2,
 #board-0 {
-  display: grid;
   grid-template-columns: repeat(10, 1fr);
   height: 50vh;
   width: 50vw;
+}
+
+#board-0 {
+  display: grid;
+  -webkit-box-shadow: 14px 14px 47px -10px rgba(50, 202, 166, 0.5);
+  -moz-box-shadow: 14px 14px 47px -10px rgba(50, 202, 166, 0.5);
+  box-shadow: 14px 14px 47px -10px rgba(50, 202, 166, 0.5);
+}
+
+#board-0 > div {
+  border-color: #32caa690;
+}
+
+#board-0 > div > button {
+  border-color: #32caa690;
+  background-color: #2c464f;
 }
 
 #board-2 {
@@ -47,4 +73,17 @@
 
 #board-2 > div > button {
   background: lightcoral;
+}
+
+#rotate {
+  color: white;
+  margin-top: 1.5rem;
+  font-family: "Jersey 10", sans-serif;
+  letter-spacing: 1.5rem;
+  font-size: 3.5rem;
+  padding: 1rem 5rem;
+  background-color: #2c464f;
+  -webkit-box-shadow: -2px 11px 18px 4px rgba(50, 157, 202, 0.41);
+  -moz-box-shadow: -2px 11px 18px 4px rgba(50, 157, 202, 0.41);
+  box-shadow: -2px 11px 18px 4px rgba(50, 157, 202, 0.41);
 }

@@ -140,6 +140,10 @@ function hoverColor(coordinate, direct, color, ship) {
 function hideBoard() {
   const board = document.querySelector(".place-ships");
   board.style.display = "none";
+  const boardOne = document.getElementById("board-1");
+  boardOne.style.display = "grid";
+  const boardTwo = document.getElementById("board-2");
+  boardTwo.style.display = "grid";
 }
 
 export {

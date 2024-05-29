@@ -48,7 +48,7 @@ const DOMEvents = () => {
         );
         c.addEventListener("mouseout", () => {
           if (q.length === 0) return;
-          hoverColor(coord, direction, "bisque", q[0]);
+          hoverColor(coord, direction, "#2C464f", q[0]);
         });
         c.addEventListener("click", () => {
           if (checkPlaceShip(coord, direction, q[0]) === "q") return;
