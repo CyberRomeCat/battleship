@@ -1,38 +1,40 @@
 body {
   background-color: #2c464f;
+  display: flex;
+  flex-direction: column;
 }
 
 @import url("https://fonts.googleapis.com/css2?family=Inria+Serif:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Jersey+10&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap");
 
 .container-for-boards {
-  display: flex;
-}
-
-#board-1,
-#board-2 {
+  align-self: center;
   display: none;
+  gap: 4rem;
+  height: 70%;
+  padding-bottom: 3rem;
 }
 
 #board-1,
 #board-2,
 #board-0 {
+  display: grid;
   grid-template-columns: repeat(10, 1fr);
   height: 50vh;
-  width: 50vw;
-}
-
-#board-0 {
-  display: grid;
+  width: 30vw;
   -webkit-box-shadow: 14px 14px 47px -10px rgba(50, 202, 166, 0.5);
   -moz-box-shadow: 14px 14px 47px -10px rgba(50, 202, 166, 0.5);
   box-shadow: 14px 14px 47px -10px rgba(50, 202, 166, 0.5);
 }
 
-#board-0 > div {
+#board-0 > div,
+#board-1 > div,
+#board-2 > div {
   border-color: #32caa690;
 }
 
-#board-0 > div > button {
+#board-0 > div > button,
+#board-1 > div > button,
+#board-2 > div > button {
   border-color: #32caa690;
   background-color: #2c464f;
 }
@@ -46,13 +48,14 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  position: absolute;
+  position: fixed;
+  inset: 0px;
+  width: 12rem;
+  height: 5rem;
+  max-width: 100vw;
+  max-height: 100dvh;
+  margin: auto;
   height: 70%;
-  left: 0;
-  right: 0;
-  margin-top: 5%;
-  margin-left: auto;
-  margin-right: auto;
 }
 
 .column-1,
@@ -71,19 +74,61 @@ body {
   height: 100%;
 }
 
-#board-2 > div > button {
-  background: lightcoral;
-}
-
 #rotate {
   color: white;
   margin-top: 1.5rem;
   font-family: "Jersey 10", sans-serif;
-  letter-spacing: 1.5rem;
-  font-size: 3.5rem;
-  padding: 1rem 5rem;
+  letter-spacing: 1rem;
+  font-size: 2.5rem;
+  padding: 0.7rem 3rem;
   background-color: #2c464f;
   -webkit-box-shadow: -2px 11px 18px 4px rgba(50, 157, 202, 0.41);
   -moz-box-shadow: -2px 11px 18px 4px rgba(50, 157, 202, 0.41);
   box-shadow: -2px 11px 18px 4px rgba(50, 157, 202, 0.41);
+}
+
+.name {
+  font-family: "Jersey 10", sans-serif;
+  letter-spacing: 1.5rem;
+  font-size: 3.5rem;
+  color: white;
+  margin-bottom: 10px;
+}
+
+.playerName {
+  display: flex;
+}
+
+#edit {
+  margin-top: 3em;
+  margin-left: 3em;
+}
+
+.playerBoard,
+.enemyBoard {
+  display: flex;
+  flex-direction: column;
+}
+
+#announcer {
+  font-family: "Jersey 10", sans-serif;
+  color: white;
+  letter-spacing: 0.5rem;
+  font-size: 2rem;
+  margin: 0;
+}
+
+.design {
+  display: none;
+  border: solid aquamarine;
+  width: fit-content;
+  align-self: center;
+  padding: 0.9rem 4rem;
+}
+
+h1 {
+  font-family: "Jersey 10", sans-serif;
+  color: white;
+  letter-spacing: 0.5rem;
+  align-self: center;
 }

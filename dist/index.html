@@ -7,14 +7,27 @@
     <script src="main.js" defer></script>
   </head>
   <body>
+    <h1 class="github-name">cyberRomeCat</h1>
     <div class="container-for-boards">
-      <div class="board" id="board-1"></div>
-      <div class="board" id="board-2"></div>
-      <div class="place-ships">
-        <div class="board" id="board-0"></div>
-        <div><button id="rotate">ROTATE</button></div>
+      <div class="playerBoard">
+        <p class="name">PLAYER</p>
+        <div class="board" id="board-1"></div>
+      </div>
+      <div class="enemyBoard">
+        <p class="name">ENEMY</p>
+        <div class="board" id="board-2"></div>
       </div>
     </div>
-    <div id="announcer">Initiate attack</div>
+    <div class="design">
+      <p id="announcer">it's player's turn</p>
+    </div>
+    <div class="place-ships">
+      <div class="playerName">
+        <p class="name">PLAYER</p>
+        <img src="./icons/edit.svg" id="edit" />
+      </div>
+      <div class="board" id="board-0"></div>
+      <div><button id="rotate">ROTATE</button></div>
+    </div>
   </body>
 </html>

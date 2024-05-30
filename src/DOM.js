@@ -45,7 +45,7 @@ function placeUserShip(coord, ship) {
   const horizontal = () => {
     for (let i = 0; i < ship.length; i++) {
       const selectCoord = document.querySelector(`[data-coordinate=${c}]`);
-      selectCoord.style.backgroundColor = "lightBlue";
+      selectCoord.style.backgroundColor = "#4792D789";
 
       c = c.replace(c[1], parseInt(c[1], 10) + 1);
     }
@@ -56,7 +56,7 @@ function placeUserShip(coord, ship) {
     let tranlateToletter;
     for (let i = 0; i < ship.length; i++) {
       const selectCoord = document.querySelector(`[data-coordinate=${c}]`);
-      selectCoord.style.backgroundColor = "lightBlue";
+      selectCoord.style.backgroundColor = "#4792D789";
       charCode += 1;
       tranlateToletter = String.fromCharCode(charCode);
       c = c.replace(c[0], tranlateToletter);
@@ -105,7 +105,7 @@ function hoverColor(coordinate, direct, color, ship) {
         `[data-coordinate=${coordinate}]`,
       );
       if (selectCoord === null) return;
-      if (selectCoord.style.backgroundColor === `lightblue`) {
+      if (selectCoord.style.backgroundColor === `rgba(71, 146, 215, 0.537)`) {
         return;
       }
       selectCoord.style.backgroundColor = `${color}`;
@@ -123,7 +123,7 @@ function hoverColor(coordinate, direct, color, ship) {
     for (let i = 0; i < ship.length; i++) {
       const selectCoord = document.querySelector(`[data-coordinate=${join}]`);
       if (selectCoord === null) return;
-      if (selectCoord.style.backgroundColor === `lightblue`) {
+      if (selectCoord.style.backgroundColor === `rgba(71, 146, 215, 0.537)`) {
         return;
       }
       selectCoord.style.backgroundColor = `${color}`;
@@ -140,10 +140,10 @@ function hoverColor(coordinate, direct, color, ship) {
 function hideBoard() {
   const board = document.querySelector(".place-ships");
   board.style.display = "none";
-  const boardOne = document.getElementById("board-1");
-  boardOne.style.display = "grid";
-  const boardTwo = document.getElementById("board-2");
-  boardTwo.style.display = "grid";
+  const boards = document.querySelector(".container-for-boards");
+  boards.style.display = "flex";
+  const announcer = document.querySelector(".design");
+  announcer.style.display = "block";
 }
 
 export {
