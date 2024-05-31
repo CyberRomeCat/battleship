@@ -176,54 +176,67 @@ const gameController = (playerone = player1, playertwo = player2) => {
   function disableCellsAroundShip(coord, direction, ship, boardNum) {
     const x = coord[0];
     let charCode = x.charCodeAt(0);
-    let toString;
     let y = coord[1];
     let join;
+    function disableCoord(m, n) {
+      if (typeof m === "number") {
+        if (charCode < 65 || charCode > 74) {
+          return;
+        }
+        m = String.fromCharCode(charCode);
+      }
+      if (n >= 0 && n < 10) {
+        join = `${m}${n}-${boardNum}`;
+        disableDataCoord(join);
+      } else {
+        // eslint-disable-next-line consistent-return
+        return (n += 1);
+      }
+    }
     if (direction === "horizontal") {
       y -= 1;
-      join = `${x}${y}-${boardNum}`;
-      disableDataCoord(join);
+      disableCoord(x, y);
       charCode -= 1;
-      toString = String.fromCharCode(charCode);
-      join = `${toString}${y}-${boardNum}`;
-      disableDataCoord(join);
+      disableCoord(charCode, y);
       for (let i = 0; i < ship.length + 1; i++) {
         y += 1;
-        join = `${toString}${y}-${boardNum}`;
-        disableDataCoord(join);
+
+        disableCoord(charCode, y);
       }
-      charCode += 2;
-      toString = String.fromCharCode(charCode);
-      join = `${toString}${y}-${boardNum}`;
-      disableDataCoord(join);
+      if (charCode === coord[0].charCodeAt(0)) {
+        y -= 1;
+        disableCoord(charCode, y);
+        charCode += 1;
+        disableCoord(charCode, y);
+      } else {
+        charCode += 1;
+        disableCoord(charCode, y);
+        charCode += 1;
+        disableCoord(charCode, y);
+      }
       for (let i = 0; i < ship.length + 1; i++) {
         y -= 1;
-        join = `${toString}${y}-${boardNum}`;
-        disableDataCoord(join);
+
+        disableCoord(charCode, y);
       }
     } else {
       charCode -= 1;
-      toString = String.fromCharCode(charCode);
-      join = `${toString}${y}-${boardNum}`;
-      disableDataCoord(join);
+      disableCoord(charCode, y);
       y = parseInt(y, 10);
       y += 1;
-      join = `${toString}${y}-${boardNum}`;
-      disableDataCoord(join);
+      disableCoord(charCode, y);
       for (let i = 0; i < ship.length + 1; i++) {
         charCode += 1;
-        toString = String.fromCharCode(charCode);
-        join = `${toString}${y}-${boardNum}`;
-        disableDataCoord(join);
+
+        disableCoord(charCode, y);
       }
-      y -= 2;
-      join = `${x}${y}-${boardNum}`;
-      disableDataCoord(join);
+      y -= 1;
+      disableCoord(charCode, y);
+      y -= 1;
+      disableCoord(charCode, y);
       for (let i = 0; i < ship.length + 1; i++) {
         charCode -= 1;
-        toString = String.fromCharCode(charCode);
-        join = `${toString}${y}-${boardNum}`;
-        disableDataCoord(join);
+        disableCoord(charCode, y);
       }
     }
   }
