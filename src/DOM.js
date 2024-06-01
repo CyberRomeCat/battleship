@@ -82,6 +82,13 @@ function disableAttackedCells() {
   });
 }
 
+function disableAllCells() {
+  const allCells = document.querySelectorAll(".cell");
+  allCells.forEach((c) => {
+    c.disabled = true;
+  });
+}
+
 const displayText = (() => {
   const announce = document.getElementById("announcer");
 
@@ -91,8 +98,6 @@ const displayText = (() => {
 
   function win(player) {
     announce.textContent = `${player} has won!!`;
-    alert(`${player} has won!!`);
-    window.location.reload();
   }
 
   return { playerTurn, win };
@@ -149,6 +154,7 @@ function hideBoard() {
 export {
   gridForPlayers,
   attack,
+  disableAllCells,
   hideBoard,
   disableAttackedCells,
   displayText,

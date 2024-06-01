@@ -16,6 +16,7 @@ const DOMEvents = () => {
   function attackOpponent() {
     controller.disableNonActivePlayerCells();
     hideBoard();
+    // eslint-disable-next-line consistent-return
     d.addEventListener("click", (e) => {
       const coord = e.target.getAttribute("data-coordinate");
       if (coord[3] === "2") {
@@ -24,8 +25,7 @@ const DOMEvents = () => {
         );
         selectCoord.setAttribute("data-attacked", "true");
         controller.updateRecieveAttack(coord);
-        controller.checkContinueTurn(coord);
-        controller.getActivePlayer().checkAllShipsSunk("playerone");
+        controller.checkContinueTurn(coord, "PLAYER");
       }
     });
   }

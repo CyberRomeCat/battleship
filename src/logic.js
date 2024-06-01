@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-expressions */
 import {
   attack,
+  disableAllCells,
   disableAttackedCells,
   displayText,
   placeUserShip,
@@ -91,7 +92,11 @@ const gameBoard = () => {
         return;
       }
     }
+
     displayText.win(player);
+    disableAllCells();
+    // eslint-disable-next-line consistent-return
+    return "winner";
   }
 
   return {
@@ -241,9 +246,10 @@ const gameController = (playerone = player1, playertwo = player2) => {
     }
   }
 
-  function checkContinueTurn(coordinates) {
+  function checkContinueTurn(coordinates, player) {
     if (nonActivePlayer.board[coordinates]) {
       disableAttackedCells();
+      getNonActivePlayer().checkAllShipsSunk(player);
     } else {
       switchPlayer();
       disableNonActivePlayerCells();
@@ -340,12 +346,12 @@ const CPU = () => {
     return randomCoo;
   }
 
+  // eslint-disable-next-line consistent-return
   function computerMoves() {
     const randomCoord = checkMissed(generate().randomCoord(1));
     controller.updateRecieveAttack(randomCoord);
     // eslint-disable-next-line no-use-before-define
-    controller.checkContinueTurn(randomCoord);
-    controller.getActivePlayer().checkAllShipsSunk("computer");
+    if (controller.checkContinueTurn(randomCoord, "ENEMY") === "winner") return;
     if (controller.getActivePlayer() === player2)
       setTimeout(computerMoves, 1000);
   }
